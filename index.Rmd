@@ -13,6 +13,9 @@ library(flexdashboard)
 
 Preparing the dashboard based on the instructions given at @magallanes_reyes_data_2022, and @aden-buie_flexdashboard_2023.
 
+You can find the code to this dashboard here:\
+<https://github.com/Mikay711/FinalProject>
+
 ### **New York City Housing Dataset Description:**
 
 This dataset contains prices of New York houses, providing valuable insights into the real estate market in the region. It includes information such as broker titles, house types, prices, number of bedrooms and bathrooms, property square footage, addresses, state, administrative and local areas, street names, and geographical coordinates.
@@ -25,13 +28,13 @@ This dataset contains prices of New York houses, providing valuable insights int
 ### Categorical Plot
 
 ```{r}
-readRDS("~/Graduate School/DACSS Visualization/codesForDrafts/categorical_final.rds")
+readRDS("~/Graduate School/DACSS Visualization/FinalProject/categorical_final.rds")
 ```
 
 ### Numerical Plot
 
 ```{r}
-readRDS("~/Graduate School/DACSS Visualization/codesForDrafts/numerical_final.rds")
+readRDS("~/Graduate School/DACSS Visualization/FinalProject/numerical_final.rds")
 ```
 
 ## Column {data-width="550"}
@@ -39,11 +42,11 @@ readRDS("~/Graduate School/DACSS Visualization/codesForDrafts/numerical_final.rd
 ### Categorical Numerical Plot
 
 ```{r}
-readRDS("~/Graduate School/DACSS Visualization/codesForDrafts/cat-num_final.rds")
+readRDS("~/Graduate School/DACSS Visualization/FinalProject/cat-num_final.rds")
 ```
 
 ### Geographical Plot
 
 ```{r}
-readRDS("~/Graduate School/DACSS Visualization/codesForDrafts/graph_final.rds")
+readRDS("~/Graduate School/DACSS Visualization/FinalProject/graph_final.rds")
 ```
