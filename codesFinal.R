@@ -88,7 +88,7 @@ plot1 <- base1 +
 plot1
 
 # save del1Draft ----------------------------------------------------------
-saveRDS(plot1, file = "categorical_draft.rds")
+saveRDS(plot1, file = "categorical_final.rds")
 
 
 # deliverable 2 ----------------------------------------------------------
@@ -109,8 +109,8 @@ plot2 <- base2 +
   annotate("text", x = 0.5, y = upper_limit * 0.95, label = paste("Mean Price:", scales::dollar(mean_price)), hjust = 1, size = 3) +
   # Add y-intercept line at the mean price
   geom_hline(yintercept = mean_price, linetype = "dashed", color = "red") +
-  # Remove x-axis label
-  labs(x = NULL)
+  labs(x = NULL,
+       caption = "Source: Kaggle.com")
 
 plot2 <- plot2 + coord_flip()
 
@@ -118,7 +118,7 @@ plot2 <- plot2 + coord_flip()
 plot2
 
 # save del2Draft ----------------------------------------------------------
-saveRDS(plot2, file = "numerical_draft.rds")
+saveRDS(plot2, file = "numerical_final.rds")
 
 
 # deliverable 3 ----------------------------------------------------------
@@ -151,7 +151,8 @@ plot_bivariate <- base3 +
   labs(title = "Summary of Housing Prices by Type",
        subtitle = "New York Housing Market Feb 2024",
        x = "Type of Realty",
-       y = "Price (USD)") +
+       y = "Price (USD)",
+       caption ="Source: Kaggle.com") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_grid(~ variable)+
@@ -191,25 +192,47 @@ plot_not_using
 
 
 # save del3Draft ----------------------------------------------------------
-saveRDS(plot3, file = "cat-num_draft.rds")
+saveRDS(plot3, file = "cat-num_final.rds")
 
 
 # deliverable 4  ----------------------------------------------------------
 
+# Filter data for houses and condos
+houses <- mydata[mydata$TYPE == "House for sale", ]
+condos <- mydata[mydata$TYPE == "Condo for sale", ]
+
+
+# Load necessary package
 library(sf)
-county_map=sf::read_sf("WA_County_Boundaries.geojson")
-head(county_map)
-head(mydata)
 
-# merge data into map ----------------------------------------------------------
-mydataCounty=aggregate(data=mydata,Free.Lunch~County,FUN = mean)
-myMapLunch=merge(county_map,mydataCounty,by.x='JURISDIC_2',"County")
+# Set the directory where the shapefile is located
+shapefile_dir <- "/Users/micha/OneDrive/Documents/Graduate School/DACSS Visualization/FinalProject/geo_export_b71e9963-c97c-4975-8733-7f354c528159.shp"
 
-# prepare plot
+# Read the shapefile
+boroughs_sf <- st_read(dsn = shapefile_dir)
 
-base=ggplot(myMapLunch)
-del4Draft=base + geom_sf(aes(fill=Free.Lunch))
-del4Draft
+# Check the structure of the imported shapefile
+print(boroughs_sf)
+
+
+
+# Plot borough boundaries and housing data
+
+base4 <- ggplot() + geom_sf(data = boroughs_sf, fill = NA, color = "black")
+plot4 <- base4 +
+  geom_point(data = houses, aes(x = LONGITUDE, y = LATITUDE, color = "Houses"), size = 0.3) + # Add houses
+  geom_point(data = condos, aes(x = LONGITUDE, y = LATITUDE, color = "Condos"), size = 0.3) + # Add condos
+  labs(title = "Location of Houses and Condos for Sale in NYC") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 10), axis.text.y = element_text(size = 10), # Adjust axis text size
+        axis.title.x = element_blank(), axis.title.y = element_blank(), # Remove axis titles
+        legend.position = "bottom") + # Change legend position
+  scale_color_manual(name = "Property Type", values = c("Houses" = "blue", "Condos" = "red")) + # Add legend
+  guides(color = guide_legend(override.aes = list(size = 4))) +
+  labs(caption = "Source: Kaggle.com")# Adjust legend dot size
+
+
+plot4
 
 # save del4Draft ----------------------------------------------------------
-saveRDS(del4Draft, file = "del4Draft.rds")
+saveRDS(plot4, file = "graph_final.rds")
